@@ -1,6 +1,3 @@
-const SUFFIX = ":";
-const PREFIX = "- ; ";
-
 function isAlphaNumeric(charcode: number) {
 	return (
 		(charcode > 47 && charcode < 58) || // 0-9
@@ -37,7 +34,7 @@ function lastNonwhitespaceIndex(str: string) {
 	return -1;
 }
 
-export function formatDefinition(line: string) {
+export function formatDefinition(line: string, prefix, suffix) {
 	const firstAlphanum = firstAlphanumIndex(line);
 	// if there is no alphanumeric characters, do nothing
 	if (firstAlphanum === -1) return line;
@@ -49,16 +46,14 @@ export function formatDefinition(line: string) {
 
 	let content = line.substring(firstNonwhitespaceIndex, contentEnd + 1);
 	// don't add prefix if it's already there
-	if (content.startsWith(PREFIX))
-		content = content.substring(PREFIX.length);
-	else if (content.startsWith("- ") && PREFIX.startsWith("- "))
+	if (content.startsWith(prefix))
+		content = content.substring(prefix.length);
+	else if (content.startsWith("- ") && prefix.startsWith("- "))
 		content = content.substring(2); // special case for list definitions
 
 	const trailingWhitespace = line.substring(contentEnd + 1);
 
 	// prepending whitespace + prefix + content + suffix + trailing whitespace
-	const res = prependingWhitespace + PREFIX + "**" + content + "**" + SUFFIX + trailingWhitespace;
+	const res = prependingWhitespace + prefix + "**" + content + "**" + suffix + trailingWhitespace;
 	return res;
 }
-
-console.log(formatDefinition("Cool beans bro!"));
