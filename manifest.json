@@ -1,0 +1,10 @@
+{
+	"id": "definition-format-shortcut",
+	"name": "Definition Format Shortcut",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Adds a shortcut to quickly format the current line as a definition",
+	"author": "jrddp",
+	"authorUrl": "https://github.com/jrddp",
+	"isDesktopOnly": false
+}
