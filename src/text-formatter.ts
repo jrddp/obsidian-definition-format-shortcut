@@ -47,10 +47,12 @@ export function formatDefinition(line: string) {
 
   const prependingWhitespace = line.substring(0, firstNonwhitespaceIndex);
 
-	let content = line.substring(firstNonwhitespaceIndex, contentEnd);
+	let content = line.substring(firstNonwhitespaceIndex, contentEnd + 1);
 	// don't add prefix if it's already there
 	if (content.startsWith(PREFIX))
 		content = content.substring(PREFIX.length);
+	else if (content.startsWith("- ") && PREFIX.startsWith("- "))
+		content = content.substring(2); // special case for list definitions
 
 	const trailingWhitespace = line.substring(contentEnd + 1);
 
