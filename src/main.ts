@@ -1,17 +1,19 @@
 import {
 	Plugin
 } from "obsidian";
-import { getFormatDefinitionCmd } from "./commands";
+import { getFormatDefinitionCmd, getFormatDefinitionSecondaryCmd } from "./commands";
 import { SettingTab } from "./settings-tab";
 
 interface PluginSettings {
-	prefix: string;
+	prefix_primary: string;
+	prefix_secondary: string;
 	suffix: string;
+	prefixes_additional: string[];
 }
 
 const DEFAULT_SETTINGS: Partial<PluginSettings> = {
-	prefix: "- ",
-	suffix: ":"
+	prefix_primary: "- ",
+	suffix: ":",
 }
 
 export default class DefinitionFormatShortcutPlugin extends Plugin {
@@ -23,6 +25,7 @@ export default class DefinitionFormatShortcutPlugin extends Plugin {
 		this.addSettingTab(new SettingTab(this.app, this));
 
 		this.addCommand(getFormatDefinitionCmd(this));
+		this.addCommand(getFormatDefinitionSecondaryCmd(this));
 	}
 
 	onunload() {}
