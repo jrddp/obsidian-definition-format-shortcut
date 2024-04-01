@@ -34,7 +34,7 @@ function lastNonwhitespaceIndex(str: string) {
 	return -1;
 }
 
-export function formatDefinition(line: string, prefix, suffix) {
+export function formatDefinition(line: string, prefix: string, suffix: string) {
 	const firstAlphanum = firstAlphanumIndex(line);
 	// if there is no alphanumeric characters, do nothing
 	if (firstAlphanum === -1) return line;
