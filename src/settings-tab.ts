@@ -27,19 +27,6 @@ export class SettingTab extends PluginSettingTab {
 					})
 			);
 
-		// prefix setting
-		new Setting(containerEl)
-			.setName("Secondary Definition Prefix")
-			.setDesc("Text to add before the defined term.")
-			.addText((text) =>
-				text
-					.setValue(this.plugin.settings.prefix_secondary)
-					.onChange(async (value) => {
-						this.plugin.settings.prefix_secondary = value;
-						await this.plugin.saveSettings();
-					})
-			);
-
 		// suffix setting
 		new Setting(containerEl)
 			.setName("Definition Delimiter")

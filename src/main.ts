@@ -6,7 +6,6 @@ import { SettingTab } from "./settings-tab";
 
 interface PluginSettings {
 	prefix_primary: string;
-	prefix_secondary: string;
 	suffix: string;
 	prefixes_additional: string[];
 }

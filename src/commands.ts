@@ -13,8 +13,6 @@ function getFullPrefixList(plugin: DefinitionFormatShortcutPlugin) {
 	const list = [];
 	if (plugin.settings.prefix_primary)
 		list.push(plugin.settings.prefix_primary);
-	if (plugin.settings.prefix_secondary)
-		list.push(plugin.settings.prefix_secondary);
 	if (plugin.settings.prefixes_additional)
 		list.push(...plugin.settings.prefixes_additional);
 	return list;
@@ -102,7 +100,7 @@ export function getFormatDefinitionSecondaryCmd(
 
 			let textBeforeCursor = lineText.substring(0, cursorChar);
 
-			let prefix = prefixes[cycleIndex];
+			let prefix = prefixes.length == 1 ? prefixes[0] : prefixes[cycleIndex];
 			let prefixIdx = 1;
 			let isRepeat = false;
 			if (
@@ -112,7 +110,7 @@ export function getFormatDefinitionSecondaryCmd(
 			) {
 				prefixIdx =
 					(prefixes.length + (lastPrefixIdx - 1)) % prefixes.length;
-				cycleIndex = prefixIdx > 0 ? prefixIdx : 1;
+				cycleIndex = prefixIdx == 0 ? prefixIdx : 1;
 				prefix = prefixes[prefixIdx];
 				textBeforeCursor = lastLineTextUnformatted!.substring(
 					0,
