@@ -7,6 +7,7 @@ let lastLineTextUnformatted: string | null = null;
 let lastLineTextFormatted: string | null = null;
 let lastCursorChar: number | null = null;
 let lastPrefixIdx = 0;
+let cycleIndex = 1;
 
 function getFullPrefixList(plugin: DefinitionFormatShortcutPlugin) {
 	const list = [];
@@ -17,6 +18,12 @@ function getFullPrefixList(plugin: DefinitionFormatShortcutPlugin) {
 	if (plugin.settings.prefixes_additional)
 		list.push(...plugin.settings.prefixes_additional);
 	return list;
+}
+
+function shouldCycle(editor: Editor) {
+	const lineNum = editor.getCursor().line;
+	const lineText = editor.getLine(lineNum);
+	const cursorChar = editor.getCursor().ch;
 }
 
 export function getFormatDefinitionCmd(plugin: DefinitionFormatShortcutPlugin) {
@@ -41,8 +48,10 @@ export function getFormatDefinitionCmd(plugin: DefinitionFormatShortcutPlugin) {
 				lineText == lastLineTextFormatted &&
 				lastCursorChar == cursorChar
 			) {
+				// cycle through the prefixes
 				const prefixes = getFullPrefixList(plugin);
 				prefixIdx = (lastPrefixIdx + 1) % prefixes.length;
+				cycleIndex = prefixIdx > 0 ? prefixIdx : 1;
 				prefix = prefixes[prefixIdx];
 				textBeforeCursor = lastLineTextUnformatted!.substring(
 					0,
@@ -82,17 +91,18 @@ export function getFormatDefinitionSecondaryCmd(
 		id: "format-definition-secondary",
 		name: "Format definition (Secondary)",
 		editorCallback: (editor: Editor, view: MarkdownView) => {
-
 			const lineNum = editor.getCursor().line;
 			const lineText = editor.getLine(lineNum);
 			const cursorChar = editor.getCursor().ch;
+
+			const prefixes = getFullPrefixList(plugin);
 
 			// there is nothing to do at the start of the line
 			if (cursorChar === 0) return;
 
 			let textBeforeCursor = lineText.substring(0, cursorChar);
 
-			let prefix = plugin.settings.prefix_secondary;
+			let prefix = prefixes[cycleIndex];
 			let prefixIdx = 1;
 			let isRepeat = false;
 			if (
@@ -100,9 +110,9 @@ export function getFormatDefinitionSecondaryCmd(
 				lineText == lastLineTextFormatted &&
 				lastCursorChar == cursorChar
 			) {
-				const prefixes = getFullPrefixList(plugin);
 				prefixIdx =
 					(prefixes.length + (lastPrefixIdx - 1)) % prefixes.length;
+				cycleIndex = prefixIdx > 0 ? prefixIdx : 1;
 				prefix = prefixes[prefixIdx];
 				textBeforeCursor = lastLineTextUnformatted!.substring(
 					0,
