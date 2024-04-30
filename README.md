@@ -10,3 +10,6 @@ It is recommended to use this plugin alongside the [List Callouts Plugin](https:
 
 ## Usage Video
 [![Usage Video](https://img.youtube.com/vi/PLZUvqEaTPM/0.jpg)](https://www.youtube.com/watch?v=PLZUvqEaTPM)
+
+## Installation
+This plugin is currently pending review for the Obsidian Plugin Marketplace. To install manually, you can create a folder in the `.obsidian/plugins` directory of your workspace called "definition-format-shortcut", and add the `main.js` and `manifest.json` files from the latest release on GitHub.
